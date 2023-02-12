@@ -37,4 +37,3 @@ console.log('-----------------');
 test([2, 1, 1, 1]);
 
 
-// Math.sqrt(Math.pow((3 + 0), 2) + Math.pow((0 + 0), 2))
