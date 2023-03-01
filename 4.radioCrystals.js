@@ -1,78 +1,69 @@
-function crystals(input) {
-    let resultCrystal = Number(input[0]);
-    let cut = 0.25;
-    let lap = 0.8;
-    let grind = -20;
-    let etch = -2;
-    let xRay = 1;
-
-    for (let i = 1; i < input.length; i++) {
-        let chunk = Number(input[i]);
-        console.log(`Processing chunk ${chunk} microns`);
-
-        let counterCut = 0;
-        let counterLap = 0;
-        let counterGrid = 0;
-        let counterEtch = 0;
-
-        while (chunk > resultCrystal) {
-            chunk *= cut;
-            counterCut++;
-            if (chunk * cut < resultCrystal) {
-                break;
+function chrystalFabric(array) {
+    let neededThickness = array[0];
+ 
+    for (let i = 1; i < array.length; i++) {
+        let currentThickness = array[i];
+ 
+        console.log(`Processing chunk ${currentThickness} microns`);
+ 
+        let cut = (number) => number / 4;
+        let lap = (number) => number - number * 0.2;
+        let grind = (number) => number - 20;
+        let etch = (number) => number - 2;
+        let xray = (number) => number + 1;
+ 
+        let cutCount = 0;
+        let lapCount = 0;
+        let grindCount = 0;
+        let etchCount = 0;
+ 
+        while (currentThickness !== neededThickness) {
+            while (currentThickness / 4 >= neededThickness) {
+                currentThickness = cut(currentThickness);
+                cutCount++;
+            }
+            if (cutCount > 0) {
+                console.log(`Cut x${cutCount}`);
+                console.log(`Transporting and washing`);
+                currentThickness = Math.floor(currentThickness);
+            }
+ 
+            while (currentThickness - currentThickness * 0.2 >= neededThickness) {
+                currentThickness = lap(currentThickness);
+                lapCount++;
+            }
+            if (lapCount > 0) {
+                console.log(`Lap x${lapCount}`);
+                console.log(`Transporting and washing`);
+                currentThickness = Math.floor(currentThickness);
+            }
+ 
+            while (currentThickness - 20 >= neededThickness) {
+                currentThickness = grind(currentThickness);
+                grindCount++;
+            }
+            if (grindCount > 0) {
+                console.log(`Grind x${grindCount}`);
+                console.log(`Transporting and washing`);
+                currentThickness = Math.floor(currentThickness);
+            }
+ 
+            while (currentThickness - 2 >= neededThickness - 1) {
+                currentThickness = etch(currentThickness);
+                etchCount++;
+            }
+            if (etchCount > 0) {
+                console.log(`Etch x${etchCount}`);
+                console.log(`Transporting and washing`);
+                currentThickness = Math.floor(currentThickness);
+            }
+ 
+            if (currentThickness < neededThickness) {
+                currentThickness = xray(currentThickness);
+                console.log(`X-ray x1`);
             }
         }
-
-        if (counterCut >= 1) {
-            chunk = Math.floor(chunk);
-            console.log(`Cut x${counterCut}`);
-            console.log(`Transporting and washing`);
-        }
-        while (chunk > resultCrystal) {
-            chunk *= lap;
-            counterLap++;
-            if (chunk * lap < resultCrystal) {
-                break;
-            }
-        }
-
-        if (counterLap >= 1) {
-            chunk = Math.floor(chunk);
-            console.log(`Lap x${counterLap}`);
-            console.log(`Transporting and washing`);
-        }
-
-        while (chunk > resultCrystal) {
-            chunk += grind;
-            counterGrid++;
-            if (chunk + grind < resultCrystal) {
-                break;
-            }
-        }
-
-        if (counterGrid >= 1) {
-            chunk = Math.floor(chunk);
-            console.log(`Grind x${counterGrid}`);
-            console.log(`Transporting and washing`);
-        }
-
-        while (chunk > resultCrystal) {
-            chunk += etch;
-            counterEtch++;
-        }
-
-        if (counterEtch >= 1) {
-            chunk = Math.floor(chunk);
-            console.log(`Etch x${counterEtch}`);
-            console.log(`Transporting and washing`);
-        }
-
-        if (chunk < resultCrystal) {
-            chunk += xRay;
-            console.log(`X-ray x1`);
-        }
-        console.log(`Finished crystal ${Math.floor(chunk)} microns`);
+        console.log(`Finished crystal ${neededThickness} microns`);
     }
 }
-
 crystals([1000, 4003, 4005]);
